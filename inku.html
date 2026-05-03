@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INKU — L'actu anime & manga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       INKU — Design System
+    ============================================================ */
+    :root {
+      --bg:           #07070F;
+      --bg-card:      #0F0F1C;
+      --bg-elevated:  #16162A;
+      --bg-hover:     #1E1E38;
+      --magenta:      #D02886;
+      --magenta-glow: rgba(208,40,134,.25);
+      --rose:         #FF5FB3;
+      --violet:       #9966CC;
+      --violet-light: #B585E8;
+      --deep:         #54218E;
+      --text:         #F0EEF8;
+      --text-muted:   #8B8AA0;
+      --text-dim:     #4E4D64;
+      --border:       rgba(255,255,255,.07);
+      --border-accent:rgba(208,40,134,.28);
+      --grad:         linear-gradient(135deg,#D02886 0%,#9966CC 55%,#54218E 100%);
+      --grad-soft:    linear-gradient(135deg,rgba(208,40,134,.12),rgba(84,33,142,.06));
+      --r:  12px;
+      --rs:  8px;
+      --rl: 20px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;font:inherit;border:none;background:none;color:inherit}
+    img{display:block;max-width:100%}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--deep);border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:var(--violet)}
+
+    /* ── Layout ── */
+    .wrap{max-width:1260px;margin:0 auto;padding:0 28px}
+
+    /* ── Typography helpers ── */
+    .t-display{font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1}
+    .t-ui{font-family:'Space Grotesk',sans-serif;font-weight:600}
+    .grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    /* ── Buttons ── */
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;transition:all .2s;white-space:nowrap;cursor:pointer}
+    .btn-ghost{border:1px solid var(--border);color:var(--text-muted);background:transparent}
+    .btn-ghost:hover{border-color:var(--magenta);color:var(--magenta)}
+    .btn-primary{background:var(--grad);color:#fff;border:none;box-shadow:0 0 24px var(--magenta-glow)}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 32px rgba(208,40,134,.45)}
+
+    /* ── Tags ── */
+    .tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+    .tag-mg{background:rgba(208,40,134,.14);color:var(--rose);border:1px solid rgba(208,40,134,.28)}
+    .tag-vi{background:rgba(153,102,204,.14);color:var(--violet-light);border:1px solid rgba(153,102,204,.28)}
+    .tag-new{background:var(--magenta);color:#fff;border:none}
+    .tag-hot{background:rgba(255,95,179,.14);color:var(--rose);border:1px solid rgba(255,95,179,.25)}
+
+    /* ── Cards ── */
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;cursor:pointer}
+    .card:hover{border-color:var(--border-accent);transform:translateY(-3px);box-shadow:0 10px 36px rgba(208,40,134,.12)}
+    .card-img{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:36px}
+    .card-body{padding:16px}
+    .card-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;line-height:1.3;margin:8px 0 6px;color:var(--text)}
+    .card-meta{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:6px}
+    .dot{color:var(--border)}
+
+    /* ── Section header ── */
+    .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+    .sec-title{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;display:flex;align-items:center;gap:10px}
+    .sec-title::before{content:'';display:block;width:4px;height:20px;background:var(--grad);border-radius:2px;flex-shrink:0}
+    .sec-more{font-size:13px;color:var(--magenta);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:gap .15s}
+    .sec-more:hover{gap:8px}
+
+    /* ── Gradient backgrounds for placeholders ── */
+    .g1{background:linear-gradient(135deg,#54218E,#D02886)}
+    .g2{background:linear-gradient(135deg,#D02886,#FF5FB3)}
+    .g3{background:linear-gradient(135deg,#9966CC,#54218E)}
+    .g4{background:linear-gradient(135deg,#FF5FB3,#9966CC)}
+    .g5{background:linear-gradient(135deg,#54218E,#FF5FB3)}
+    .g6{background:linear-gradient(135deg,#D02886,#9966CC)}
+    .g7{background:linear-gradient(135deg,#9966CC,#D02886)}
+    .g8{background:linear-gradient(135deg,#FF5FB3,#54218E)}
+
+    /* ── Pages ── */
+    .page{display:none}
+    .page.on{display:block;animation:fadeUp .28s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    .navbar{position:sticky;top:0;z-index:200;background:rgba(7,7,15,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:62px}
+    .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+    .logo-mark{width:36px;height:36px;border-radius:9px;overflow:visible;flex-shrink:0}
+    .logo-word{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:.06em;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .nav-links{display:flex;align-items:center;gap:2px}
+    .nav-lnk{padding:7px 14px;border-radius:var(--rs);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:500;color:var(--text-muted);transition:color .15s,background .15s}
+    .nav-lnk:hover{color:var(--text);background:var(--bg-elevated)}
+    .nav-lnk.on{color:var(--text);background:var(--bg-elevated)}
+    .nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+
+    /* ============================================================
+       PAGE 1 — ACCUEIL
+    ============================================================ */
+    /* Hero */
+    .hero-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;padding:28px 0 0}
+    .hero-main{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+    .hero-main:hover{border-color:var(--border-accent);box-shadow:0 16px 50px rgba(208,40,134,.14)}
+    .hero-img{height:340px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .hero-img-fill{position:absolute;inset:0;background:linear-gradient(135deg,#54218E 0%,#9966CC 45%,#D02886 75%,#FF5FB3 100%)}
+    .hero-fade{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,var(--bg-card),transparent)}
+    .hero-badge{position:absolute;bottom:18px;left:20px;display:flex;gap:8px}
+    .hero-content{padding:22px}
+    .hero-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;line-height:1.2;margin:10px 0 10px}
+    .hero-exc{font-size:14px;color:var(--text-muted);line-height:1.55;margin-bottom:14px}
+    .hero-side{display:flex;flex-direction:column;gap:12px}
+    .mini-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:14px;display:grid;grid-template-columns:78px 1fr;gap:12px;align-items:center;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+    .mini-card:hover{border-color:var(--border-accent);box-shadow:0 4px 22px rgba(208,40,134,.1)}
+    .mini-img{width:78px;height:78px;border-radius:var(--rs);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+    .mini-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;line-height:1.3;margin:6px 0 4px}
+
+    /* News grid */
+    .news-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:44px}
+
+    /* Mascot banner */
+    .octo-banner{background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--rl);padding:30px 36px;margin:44px 0;display:grid;grid-template-columns:110px 1fr auto;gap:26px;align-items:center;position:relative;overflow:hidden}
+    .octo-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 0% 50%,rgba(84,33,142,.35) 0%,transparent 55%),radial-gradient(ellipse at 100% 50%,rgba(208,40,134,.12) 0%,transparent 55%);pointer-events:none}
+    .octo-svg{position:relative;z-index:1;width:110px;height:110px}
+    .octo-text{position:relative;z-index:1}
+    .octo-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px}
+    .octo-sub{font-size:14px;color:var(--text-muted)}
+
+    /* Newsletter */
+    .nl-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rl);padding:44px;margin:44px 0 28px;position:relative;overflow:hidden}
+    .nl-section::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(208,40,134,.13) 0%,transparent 70%);pointer-events:none}
+    .nl-section::after{content:'';position:absolute;bottom:-60px;left:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(84,33,142,.13) 0%,transparent 70%);pointer-events:none}
+    .nl-inner{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;position:relative;z-index:1}
+    .nl-title{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;line-height:1.1;margin-bottom:10px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .nl-sub{font-size:15px;color:var(--text-muted);margin-bottom:22px;line-height:1.6}
+    .nl-form{display:flex;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
+    .nl-form:focus-within{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(208,40,134,.1)}
+    .nl-form input{flex:1;padding:14px 18px;background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:var(--text)}
+    .nl-form input::placeholder{color:var(--text-dim)}
+    .nl-form button{background:var(--grad);color:#fff;padding:14px 22px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;transition:opacity .2s;white-space:nowrap}
+    .nl-form button:hover{opacity:.88}
+    .nl-perks{display:flex;flex-direction:column;gap:14px}
+    .nl-perk{display:flex;align-items:flex-start;gap:12px}
+    .nl-icon{width:34px;height:34px;border-radius:9px;background:rgba(208,40,134,.13);border:1px solid rgba(208,40,134,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .nl-perk-body{font-size:14px;color:var(--text-muted);line-height:1.4}
+    .nl-perk-body strong{color:var(--text);display:block;margin-bottom:1px}
+
+    /* Footer */
+    .footer{border-top:1px solid var(--border);padding:28px 0;margin-top:28px}
+    .footer-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .footer-copy{font-size:13px;color:var(--text-dim)}
+    .footer-links{display:flex;gap:18px;font-size:13px;color:var(--text-dim)}
+    .footer-links a:hover{color:var(--magenta)}
+
+    /* ============================================================
+       PAGE 2 — NEWS
+    ============================================================ */
+    .page-header{padding:36px 0 22px;border-bottom:1px solid var(--border);margin-bottom:28px}
+    .page-h1{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;margin-bottom:6px}
+    .page-sub{font-size:15px;color:var(--text-muted)}
+    .filter-bar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:28px}
+    .fp{padding:7px 16px;border-radius:999px;border:1px solid var(--border);font-size:13px;font-weight:500;color:var(--text-muted);background:transparent;cursor:pointer;transition:all .15s}
+    .fp:hover{border-color:var(--magenta);color:var(--magenta)}
+    .fp.on{background:var(--magenta);border-color:var(--magenta);color:#fff}
+    .news-layout{display:grid;grid-template-columns:1fr 290px;gap:36px}
+    .news-list{display:flex;flex-direction:column}
+    .news-row{display:grid;grid-template-columns:170px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:border-color .2s}
+    .news-row:hover{border-color:rgba(208,40,134,.2)}
+    .news-row:hover .nrt{color:var(--rose)}
+    .nr-img{height:116px;border-radius:var(--rs);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:30px}
+    .nr-meta{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+    .nrt{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;line-height:1.3;margin-bottom:8px;transition:color .2s}
+    .nr-exc{font-size:13px;color:var(--text-muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .pagination{display:flex;justify-content:center;gap:7px;padding:28px 0}
+    .pg{width:36px;height:36px;border-radius:var(--rs);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;background:transparent;color:var(--text-muted)}
+    .pg:hover{border-color:var(--magenta);color:var(--magenta)}
+    .pg.on{background:var(--magenta);border-color:var(--magenta);color:#fff}
+    .sidebar{display:flex;flex-direction:column;gap:20px}
+    .sb{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:18px}
+    .sb-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+    .top-list{display:flex;flex-direction:column;gap:12px}
+    .top-item{display:grid;grid-template-columns:28px 1fr;gap:9px;align-items:start}
+    .top-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+    .top-t{font-size:13px;font-weight:600;line-height:1.3;margin-bottom:2px}
+    .top-m{font-size:11px;color:var(--text-dim)}
+
+    /* ============================================================
+       PAGE 3 — CALENDRIER
+    ============================================================ */
+    .cal-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+    .season-sw{display:flex;background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:4px;gap:0}
+    .s-btn{padding:6px 18px;border-radius:999px;font-size:13px;font-weight:600;color:var(--text-muted);background:transparent;transition:all .2s}
+    .s-btn:hover{color:var(--text)}
+    .s-btn.on{background:var(--grad);color:#fff}
+    .week-nav{display:flex;align-items:center;gap:12px}
+    .wk-lbl{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;white-space:nowrap}
+    .wk-btn{width:32px;height:32px;border-radius:var(--rs);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:border-color .2s;font-size:14px}
+    .wk-btn:hover{border-color:var(--magenta);color:var(--magenta)}
+    .cal-table{width:100%;border-collapse:collapse;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:18px;table-layout:fixed}
+    .cal-table th{background:var(--bg-elevated);padding:11px 8px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border);text-align:center}
+    .cal-table th:first-child{width:72px;text-align:right;padding-right:12px}
+    .cal-table td{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 6px;vertical-align:top;min-height:88px}
+    .cal-table td:first-child{background:var(--bg-elevated);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);text-align:right;padding-right:10px;border-right:1px solid var(--border);white-space:nowrap;vertical-align:middle}
+    .cal-table td:last-child{border-right:none}
+    .cal-table tr:last-child td{border-bottom:none}
+    .ep{display:block;padding:5px 7px;border-radius:6px;font-size:11px;font-weight:600;line-height:1.2;margin-bottom:4px;cursor:pointer;transition:opacity .2s}
+    .ep:hover{opacity:.75}
+    .ep-meta{display:block;font-size:9px;font-weight:400;opacity:.65;letter-spacing:.05em;margin-top:2px}
+    .ep-new{background:var(--magenta);color:#fff}
+    .ep-run{background:rgba(153,102,204,.2);color:var(--violet-light);border:1px solid rgba(153,102,204,.28)}
+    .ep-hot{background:rgba(255,95,179,.14);color:var(--rose);border:1px solid rgba(255,95,179,.22)}
+    .ep-def{background:var(--bg-elevated);color:var(--text-muted);border:1px solid var(--border)}
+    .cal-legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:36px}
+    .leg{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted)}
+    .leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+
+    /* ============================================================
+       PAGE 4 — ANIME → MANGA
+    ============================================================ */
+    .a2m-search{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rl);padding:18px 22px;margin-bottom:24px;display:flex;gap:12px;align-items:center;transition:border-color .2s}
+    .a2m-search:focus-within{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(208,40,134,.1)}
+    .a2m-input{flex:1;background:transparent;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:17px;color:var(--text)}
+    .a2m-input::placeholder{color:var(--text-dim)}
+    .a2m-list{display:flex;flex-direction:column;gap:14px}
+    .a2m-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rl);padding:22px;display:grid;grid-template-columns:1fr 50px 1fr;gap:20px;align-items:center;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+    .a2m-card:hover{border-color:var(--border-accent);box-shadow:0 4px 26px rgba(208,40,134,.1)}
+    .a2m-side{display:flex;gap:14px;align-items:center}
+    .a2m-cover{width:76px;height:106px;border-radius:var(--rs);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+    .a2m-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta);margin-bottom:5px}
+    .a2m-lbl.manga{color:var(--violet-light)}
+    .a2m-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;margin-bottom:5px}
+    .a2m-stop{font-size:13px;color:var(--text-muted);line-height:1.4;margin-bottom:9px}
+    .chips{display:flex;flex-wrap:wrap;gap:5px}
+    .chip{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-muted)}
+    .a2m-arrow-col{display:flex;flex-direction:column;align-items:center;gap:5px}
+    .a2m-arr{width:38px;height:38px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 18px var(--magenta-glow)}
+    .a2m-arr-lbl{font-size:9px;color:var(--text-dim);text-align:center;line-height:1.3;letter-spacing:.06em;text-transform:uppercase}
+
+    /* ============================================================
+       PAGE 5 — À PROPOS
+    ============================================================ */
+    .about-hero{display:grid;grid-template-columns:1fr 270px;gap:44px;padding:44px 0;align-items:center}
+    .about-lead{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;line-height:1.06;margin-bottom:20px}
+    .about-p{font-size:16px;color:var(--text-muted);line-height:1.7;margin-bottom:12px}
+    .about-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+    .mascot-wrap{background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--rl);padding:28px;text-align:center;position:relative;overflow:hidden}
+    .mascot-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(84,33,142,.3),transparent 70%);pointer-events:none}
+    .mascot-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-top:12px;position:relative;z-index:1}
+    .mascot-role{font-size:12px;color:var(--text-dim);margin-top:3px;position:relative;z-index:1}
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:36px 0}
+    .stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:26px 22px;text-align:center;transition:border-color .2s}
+    .stat:hover{border-color:var(--border-accent)}
+    .stat-n{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px}
+    .stat-l{font-size:14px;color:var(--text-muted);font-weight:500}
+    .stat-d{font-size:12px;color:var(--text-dim);margin-top:6px}
+    .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:44px}
+    .team-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:22px 14px;text-align:center;transition:border-color .2s,transform .2s}
+    .team-card:hover{border-color:var(--border-accent);transform:translateY(-3px)}
+    .team-av{width:68px;height:68px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid var(--border-accent)}
+    .team-name{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;margin-bottom:3px}
+    .team-role{font-size:12px;color:var(--text-dim)}
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:44px}
+    .val{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:26px;position:relative;overflow:hidden}
+    .val::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--grad)}
+    .val-icon{font-size:30px;margin-bottom:12px}
+    .val-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:8px}
+    .val-text{font-size:14px;color:var(--text-muted);line-height:1.55}
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="navbar">
+  <div class="wrap">
+    <div class="nav-inner">
+      <div class="nav-logo" onclick="goto('home')">
+        <!-- K with tentacle SVG logo -->
+        <svg class="logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg" x1="0" y1="0" x2="36" y2="36">
+              <stop offset="0%" stop-color="#54218E"/>
+              <stop offset="100%" stop-color="#D02886"/>
+            </linearGradient>
+          </defs>
+          <rect width="36" height="36" rx="9" fill="url(#lg)"/>
+          <!-- K strokes -->
+          <path d="M10 8v20M10 18l11-10M10 18l11 10" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Tentacle ribbon -->
+          <path d="M16 13 Q21 16 19 21 Q17 25 22 27" stroke="#FF5FB3" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+          <!-- Suction cups -->
+          <circle cx="20" cy="15" r="1.3" fill="white" opacity=".95"/>
+          <circle cx="20" cy="19.5" r="1.3" fill="white" opacity=".95"/>
+          <circle cx="20.5" cy="24" r="1.3" fill="white" opacity=".95"/>
+        </svg>
+        <span class="logo-word">INKU</span>
+      </div>
+
+      <div class="nav-links" id="nav-links">
+        <button class="nav-lnk on"  data-p="home"  onclick="goto('home')">Accueil</button>
+        <button class="nav-lnk"     data-p="news"  onclick="goto('news')">News</button>
+        <button class="nav-lnk"     data-p="cal"   onclick="goto('cal')">Calendrier</button>
+        <button class="nav-lnk"     data-p="a2m"   onclick="goto('a2m')">Anime → Manga</button>
+        <button class="nav-lnk"     data-p="about" onclick="goto('about')">À propos</button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-ghost">🔍 Chercher</button>
+        <button class="btn btn-primary" onclick="scrollNL('nl-home')">Newsletter</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     PAGE 1 — ACCUEIL
+============================================================ -->
+<div class="page on" id="page-home">
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero-grid">
+    <article class="hero-main">
+      <div class="hero-img">
+        <div class="hero-img-fill"></div>
+        <!-- Decorative tentacle SVG -->
+        <svg style="position:absolute;right:30px;top:10px;width:180px;height:260px;opacity:.18;" viewBox="0 0 180 260" fill="none">
+          <path d="M90 20 Q125 80 105 140 Q85 195 115 250" stroke="white" stroke-width="14" stroke-linecap="round"/>
+          <circle cx="109" cy="78"  r="9" fill="white" opacity=".7"/>
+          <circle cx="101" cy="112" r="8" fill="white" opacity=".7"/>
+          <circle cx="100" cy="145" r="9" fill="white" opacity=".7"/>
+          <circle cx="104" cy="177" r="8" fill="white" opacity=".7"/>
+          <circle cx="110" cy="207" r="7" fill="white" opacity=".7"/>
+        </svg>
+        <div class="hero-fade"></div>
+        <div class="hero-badge">
+          <span class="tag tag-new">🔥 À LA UNE</span>
+          <span class="tag tag-mg">NEWS</span>
+        </div>
+      </div>
+      <div class="hero-content">
+        <h2 class="hero-title">Le retour fracassant de Chainsaw Man — la saison 2 enfin datée</h2>
+        <p class="hero-exc">MAPPA confirme la saison 2 de Chainsaw Man pour l'automne 2026. Denji revient avec une animation encore plus viscérale et un arc « école » très attendu des fans du manga.</p>
+        <div class="card-meta">
+          <span>Par l'équipe INKU</span><span class="dot">·</span><span>Il y a 2 h</span><span class="dot">·</span><span>4 min de lecture</span>
+        </div>
+      </div>
+    </article>
+
+    <div class="hero-side">
+      <div class="mini-card">
+        <div class="mini-img g3">🎬</div>
+        <div>
+          <span class="tag tag-vi" style="margin-bottom:6px;display:inline-block">SORTIE</span>
+          <div class="mini-title">Crunchyroll récupère One Piece pour le simulcast mondial</div>
+          <div class="card-meta" style="margin-top:4px"><span>4 h</span><span class="dot">·</span><span>3 min</span></div>
+        </div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-img g5">🏢</div>
+        <div>
+          <span class="tag tag-vi" style="margin-bottom:6px;display:inline-block">INDUSTRIE</span>
+          <div class="mini-title">MAPPA annonce l'ouverture d'un nouveau studio à Sapporo</div>
+          <div class="card-meta" style="margin-top:4px"><span>6 h</span><span class="dot">·</span><span>2 min</span></div>
+        </div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-img g7">🎤</div>
+        <div>
+          <span class="tag tag-mg" style="margin-bottom:6px;display:inline-block">INTERVIEW</span>
+          <div class="mini-title">Naoko Yamada parle de son prochain film d'animation</div>
+          <div class="card-meta" style="margin-top:4px"><span>8 h</span><span class="dot">·</span><span>8 min</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TENDANCES -->
+  <div style="margin-top:44px"></div>
+  <div class="sec-head">
+    <h3 class="sec-title">Tendances de la semaine</h3>
+    <span class="sec-more" onclick="goto('news')">Tout voir →</span>
+  </div>
+  <div class="news-grid">
+    <article class="card">
+      <div class="card-img g1">⭐</div>
+      <div class="card-body">
+        <span class="tag tag-mg">REVIEW</span>
+        <div class="card-title">Frieren ép. 28 — la mélancolie comme arme narrative</div>
+        <div class="card-meta"><span>1 j</span><span class="dot">·</span><span>12 min</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g2">💥</div>
+      <div class="card-body">
+        <span class="tag tag-vi">DOSSIER</span>
+        <div class="card-title">Spy x Family : pourquoi ça marche encore trois saisons plus tard ?</div>
+        <div class="card-meta"><span>2 j</span><span class="dot">·</span><span>8 min</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g4">🎤</div>
+      <div class="card-body">
+        <span class="tag tag-mg">INTERVIEW</span>
+        <div class="card-title">Naoko Yamada : « Le silence est mon outil le plus précieux »</div>
+        <div class="card-meta"><span>2 j</span><span class="dot">·</span><span>10 min</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g6">📝</div>
+      <div class="card-body">
+        <span class="tag tag-vi">ÉDITO</span>
+        <div class="card-title">Le slow anime, nouveau souffle d'une génération entière</div>
+        <div class="card-meta"><span>3 j</span><span class="dot">·</span><span>7 min</span></div>
+      </div>
+    </article>
+  </div>
+
+  <!-- MASCOT BANNER -->
+  <div class="octo-banner">
+    <!-- Octopus SVG -->
+    <svg class="octo-svg" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Body -->
+      <ellipse cx="55" cy="46" rx="33" ry="31" fill="#9966CC"/>
+      <ellipse cx="55" cy="41" rx="27" ry="25" fill="#B585E8"/>
+      <!-- Shine -->
+      <ellipse cx="45" cy="32" rx="13" ry="10" fill="white" opacity=".1"/>
+      <!-- Eyes -->
+      <circle cx="44" cy="41" r="9" fill="white"/>
+      <circle cx="66" cy="41" r="9" fill="white"/>
+      <circle cx="45.5" cy="41.5" r="5" fill="#120626"/>
+      <circle cx="67.5" cy="41.5" r="5" fill="#120626"/>
+      <circle cx="47" cy="39.5" r="2.2" fill="white"/>
+      <circle cx="69" cy="39.5" r="2.2" fill="white"/>
+      <!-- Brows -->
+      <path d="M36 33 Q44 29 50 33" stroke="#120626" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M60 33 Q66 29 74 33" stroke="#120626" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <!-- Mouth -->
+      <path d="M47 54 Q55 59.5 63 54" stroke="#120626" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <!-- Nose -->
+      <circle cx="55" cy="50" r="4.5" fill="#D02886" opacity=".8"/>
+      <!-- Tentacles -->
+      <path d="M28 68 Q20 82 16 96 Q14 104 18 108" stroke="#9966CC" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <path d="M39 76 Q33 90 30 105"               stroke="#9966CC" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <path d="M51 80 Q50 95 48 109"               stroke="#9966CC" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <path d="M64 78 Q67 93 68 108"               stroke="#9966CC" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <path d="M76 70 Q83 84 87 99"                stroke="#9966CC" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <!-- Suctions -->
+      <circle cx="17.5" cy="101" r="3.5" fill="#FF5FB3" opacity=".9"/>
+      <circle cx="30.5" cy="97"  r="3.5" fill="#FF5FB3" opacity=".9"/>
+      <circle cx="48"   cy="101" r="3.5" fill="#FF5FB3" opacity=".9"/>
+      <circle cx="68"   cy="100" r="3.5" fill="#FF5FB3" opacity=".9"/>
+      <circle cx="85"   cy="93"  r="3.5" fill="#FF5FB3" opacity=".9"/>
+      <!-- Paintbrush -->
+      <rect x="73" y="26" width="8" height="26" rx="3.5" fill="#CACACA" transform="rotate(22 73 26)"/>
+      <rect x="77" y="14" width="8" height="14"  rx="2.5" fill="#1A0A2E" transform="rotate(22 77 14)"/>
+      <path d="M85 11 Q91 6 93 16" stroke="#54218E" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <circle cx="96" cy="10" r="6"   fill="#54218E" opacity=".9"/>
+      <circle cx="104" cy="6" r="4"   fill="#9966CC" opacity=".75"/>
+      <circle cx="100" cy="18" r="3"  fill="#D02886" opacity=".85"/>
+    </svg>
+    <div class="octo-text">
+      <h4 class="octo-title">L'anime te laisse sur ta faim ?</h4>
+      <p class="octo-sub">On te dit exactement à quel tome reprendre — sans spoil, avec contexte.</p>
+    </div>
+    <button class="btn btn-primary" onclick="goto('a2m')" style="position:relative;z-index:1">Reprendre en manga →</button>
+  </div>
+
+  <!-- DERNIÈRES NEWS -->
+  <div class="sec-head">
+    <h3 class="sec-title">Dernières news</h3>
+    <span class="sec-more" onclick="goto('news')">Tout voir →</span>
+  </div>
+  <div class="news-grid" style="margin-bottom:0">
+    <article class="card">
+      <div class="card-img g2">📅</div>
+      <div class="card-body">
+        <span class="tag tag-mg">SORTIE</span>
+        <div class="card-title">Le calendrier du printemps 2026 dévoilé en intégralité</div>
+        <div class="card-meta"><span>3 h</span><span class="dot">·</span><span>4 min</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g5">🎮</div>
+      <div class="card-body">
+        <span class="tag tag-vi">JEU</span>
+        <div class="card-title">Persona 6 officiellement confirmé pour 2027 par Atlus</div>
+        <div class="card-meta"><span>5 h</span><span class="dot">·</span><span>3 min</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g8">🏮</div>
+      <div class="card-body">
+        <span class="tag tag-mg">CINÉMA</span>
+        <div class="card-title">Studio Ghibli prépare un nouveau long-métrage secret pour 2027</div>
+        <div class="card-meta"><span>7 h</span><span class="dot">·</span><span>5 min</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g3">⚔️</div>
+      <div class="card-body">
+        <span class="tag tag-vi">MANGA</span>
+        <div class="card-title">Berserk reprend avec un nouveau dessinateur — ce qu'il faut savoir</div>
+        <div class="card-meta"><span>12 h</span><span class="dot">·</span><span>6 min</span></div>
+      </div>
+    </article>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <section class="nl-section" id="nl-home">
+    <div class="nl-inner">
+      <div>
+        <h3 class="nl-title">La newsletter INKU</h3>
+        <p class="nl-sub">Un mail par semaine — les sorties, les reviews, les coups de cœur de la rédac. Pas de spam. Promis sur la pieuvre.</p>
+        <form class="nl-form" onsubmit="handleNL(event)">
+          <input type="email" placeholder="ton@email.com" required>
+          <button type="submit">Je m'inscris</button>
+        </form>
+      </div>
+      <div class="nl-perks">
+        <div class="nl-perk">
+          <div class="nl-icon">📅</div>
+          <div class="nl-perk-body"><strong>Le récap des sorties</strong>Toutes les nouveautés de la saison, chaque semaine.</div>
+        </div>
+        <div class="nl-perk">
+          <div class="nl-icon">⭐</div>
+          <div class="nl-perk-body"><strong>Reviews en avant-première</strong>Nos avis avant tout le monde.</div>
+        </div>
+        <div class="nl-perk">
+          <div class="nl-icon">🐙</div>
+          <div class="nl-perk-body"><strong>Zéro spam</strong>On déteste ça autant que toi.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-in">
+      <div class="footer-copy">© INKU 2026 — fait avec ♡ et un pinceau</div>
+      <div class="footer-links">
+        <a href="#">Mentions légales</a>
+        <a href="#">Contact</a>
+        <a href="#" onclick="scrollNL('nl-home');return false">Newsletter</a>
+        <a href="#">Twitter / X</a>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /wrap -->
+</div><!-- /page-home -->
+
+
+<!-- ============================================================
+     PAGE 2 — NEWS
+============================================================ -->
+<div class="page" id="page-news">
+<div class="wrap">
+
+  <div class="page-header">
+    <h1 class="page-h1">News <span class="grad-text">anime & manga</span></h1>
+    <p class="page-sub">Toute l'actualité — 84 articles · mis à jour il y a 2 h</p>
+  </div>
+
+  <div class="filter-bar" id="fbar-news">
+    <button class="fp on"  data-f="all">Tout</button>
+    <button class="fp" data-f="sortie">Sorties</button>
+    <button class="fp" data-f="review">Reviews</button>
+    <button class="fp" data-f="industrie">Industrie</button>
+    <button class="fp" data-f="interview">Interviews</button>
+    <button class="fp" data-f="manga">Manga</button>
+    <button class="fp" data-f="cinema">Cinéma</button>
+    <button class="fp" data-f="edito">Édito</button>
+  </div>
+
+  <div class="news-layout">
+    <div>
+      <div class="news-list">
+        <article class="news-row">
+          <div class="nr-img g2">📅</div>
+          <div>
+            <div class="nr-meta"><span class="tag tag-mg">SORTIE</span> 28 AVR. · 4 MIN</div>
+            <div class="nrt">Le calendrier du printemps 2026 dévoilé en intégralité</div>
+            <p class="nr-exc">14 nouvelles séries, 23 suites, et quelques surprises. Voici tout ce qu'il faut retenir du calendrier du printemps.</p>
+          </div>
+        </article>
+        <article class="news-row">
+          <div class="nr-img g5">⚡</div>
+          <div>
+            <div class="nr-meta"><span class="tag tag-vi">REVIEW</span> 27 AVR. · 6 MIN</div>
+            <div class="nrt">Solo Leveling S2 — l'animation qui sauve un récit fragile</div>
+            <p class="nr-exc">A-1 Pictures redouble d'effort sur la mise en scène. Résultat : un spectacle visuel qui compense les faiblesses narratives.</p>
+          </div>
+        </article>
+        <article class="news-row">
+          <div class="nr-img g6">🏢</div>
+          <div>
+            <div class="nr-meta"><span class="tag tag-vi">INDUSTRIE</span> 27 AVR. · 3 MIN</div>
+            <div class="nrt">MAPPA ouvre un studio satellite à Sapporo pour absorber la charge</div>
+            <p class="nr-exc">Face à un planning surchargé, MAPPA s'agrandit et recrute 200 nouveaux animateurs.</p>
+          </div>
+        </article>
+        <article class="news-row">
+          <div class="nr-img g4">🎤</div>
+          <div>
+            <div class="nr-meta"><span class="tag tag-mg">INTERVIEW</span> 26 AVR. · 8 MIN</div>
+            <div class="nrt">Naoko Yamada : « Le silence est mon outil le plus précieux »</div>
+            <p class="nr-exc">La réalisatrice de Liz et l'Oiseau bleu nous parle de son approche du silence comme langage cinématographique.</p>
+          </div>
+        </article>
+        <article class="news-row">
+          <div class="nr-img g8">⚔️</div>
+          <div>
+            <div class="nr-meta"><span class="tag tag-vi">MANGA</span> 25 AVR. · 5 MIN</div>
+            <div class="nrt">Berserk reprend avec un nouveau dessinateur — ce qu'il faut savoir</div>
+            <p class="nr-exc">L'assistant de Miura prend les rênes. Premier regard sur le style graphique et les implications pour la suite.</p>
+          </div>
+        </article>
+        <article class="news-row">
+          <div class="nr-img g3">🏮</div>
+          <div>
+            <div class="nr-meta"><span class="tag tag-mg">CINÉMA</span> 25 AVR. · 4 MIN</div>
+            <div class="nrt">Studio Ghibli annonce un long-métrage pour 2027</div>
+            <p class="nr-exc">Le studio sort de son silence avec une annonce surprise. Peu de détails pour l'instant, mais l'excitation est palpable.</p>
+          </div>
+        </article>
+        <article class="news-row">
+          <div class="nr-img g7">💭</div>
+          <div>
+            <div class="nr-meta"><span class="tag tag-vi">ÉDITO</span> 24 AVR. · 7 MIN</div>
+            <div class="nrt">Pourquoi le « slow anime » est la respiration dont on avait besoin</div>
+            <p class="nr-exc">Face au rythme des shōnen battle, des séries comme Frieren ou Dungeon Meshi réinventent la narration animée.</p>
+          </div>
+        </article>
+      </div>
+      <div class="pagination">
+        <button class="pg">←</button>
+        <button class="pg on">1</button>
+        <button class="pg">2</button>
+        <button class="pg">3</button>
+        <button class="pg" style="width:auto;padding:0 14px">…</button>
+        <button class="pg" style="width:auto;padding:0 14px">12</button>
+        <button class="pg">→</button>
+      </div>
+    </div>
+
+    <aside class="sidebar">
+      <div class="sb">
+        <div class="sb-title">🔥 Top de la semaine</div>
+        <div class="top-list">
+          <div class="top-item"><span class="top-n">01</span><div><div class="top-t">Frieren ép. 28 — la mélancolie comme arme</div><div class="top-m">REVIEW · 12 min</div></div></div>
+          <div class="top-item"><span class="top-n">02</span><div><div class="top-t">Spy x Family : pourquoi ça marche encore ?</div><div class="top-m">DOSSIER · 8 min</div></div></div>
+          <div class="top-item"><span class="top-n">03</span><div><div class="top-t">One Piece récupéré par Crunchyroll</div><div class="top-m">SORTIE · 3 min</div></div></div>
+          <div class="top-item"><span class="top-n">04</span><div><div class="top-t">Persona 6 confirmé pour 2027</div><div class="top-m">JEU · 4 min</div></div></div>
+          <div class="top-item"><span class="top-n">05</span><div><div class="top-t">Le retour de Chainsaw Man S2</div><div class="top-m">SORTIE · 5 min</div></div></div>
+        </div>
+      </div>
+
+      <div class="sb" style="background:linear-gradient(135deg,rgba(84,33,142,.18),rgba(208,40,134,.08));border-color:var(--border-accent)">
+        <div class="sb-title">💌 La newsletter</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Un mail/semaine — sorties + reviews. Pas de spam.</p>
+        <form class="nl-form" onsubmit="handleNL(event)" style="flex-direction:column">
+          <input type="email" placeholder="ton@email.com" style="border-bottom:1px solid var(--border)">
+          <button type="submit" style="border-radius:0 0 var(--r) var(--r)">S'inscrire →</button>
+        </form>
+      </div>
+
+      <div class="sb">
+        <div class="sb-title">📅 À ne pas manquer</div>
+        <div class="mini-card" style="border:none;padding:0;grid-template-columns:56px 1fr" onclick="goto('cal')">
+          <div class="mini-img g1" style="width:56px;height:56px;font-size:22px">📅</div>
+          <div>
+            <span class="tag tag-vi" style="margin-bottom:4px;display:inline-block">CALENDRIER</span>
+            <div class="mini-title" style="font-size:13px">Toutes les sorties du printemps 2026</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-in">
+      <div class="footer-copy">© INKU 2026</div>
+      <div class="footer-copy">Page 1 / 12 · 84 articles</div>
+    </div>
+  </footer>
+
+</div>
+</div>
+
+
+<!-- ============================================================
+     PAGE 3 — CALENDRIER
+============================================================ -->
+<div class="page" id="page-cal">
+<div class="wrap">
+
+  <div class="page-header">
+    <h1 class="page-h1">Calendrier <span class="grad-text">Printemps 2026</span></h1>
+    <p class="page-sub">Toutes les sorties semaine par semaine · 14 nouveautés · 23 suites · UTC+9 Tokyo</p>
+  </div>
+
+  <div class="cal-toolbar">
+    <div class="season-sw" id="season-sw">
+      <button class="s-btn">Hiver</button>
+      <button class="s-btn on">Printemps</button>
+      <button class="s-btn">Été</button>
+      <button class="s-btn">Automne</button>
+    </div>
+    <div class="week-nav">
+      <button class="wk-btn">←</button>
+      <span class="wk-lbl">Semaine du 27 avril → 3 mai</span>
+      <button class="wk-btn">→</button>
+    </div>
+    <div class="filter-bar" id="fbar-cal" style="margin:0">
+      <button class="fp on">Tout</button>
+      <button class="fp">Ma liste</button>
+      <button class="fp">Nouveaux</button>
+    </div>
+  </div>
+
+  <table class="cal-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Lun 27</th><th>Mar 28</th><th>Mer 29</th><th>Jeu 30</th><th>Ven 1<sup>er</sup></th><th>Sam 2</th><th>Dim 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Matin</td>
+        <td><span class="ep ep-new">Wind Breaker S2<span class="ep-meta">ép. 1 · 09:30</span></span></td>
+        <td></td>
+        <td><span class="ep ep-def">Lazarus<span class="ep-meta">ép. 5 · 10:00</span></span></td>
+        <td></td>
+        <td><span class="ep ep-new">Apothicaire S2<span class="ep-meta">ép. 1 · 11:30</span></span></td>
+        <td><span class="ep ep-run">Kowloon Generic<span class="ep-meta">ép. 5 · 11:00</span></span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Après-midi</td>
+        <td><span class="ep ep-run">Mob Psycho R<span class="ep-meta">ép. 5 · 14:30</span></span></td>
+        <td><span class="ep ep-def">Frieren ép. 29<span class="ep-meta">15:00</span></span></td>
+        <td></td>
+        <td><span class="ep ep-hot">My Hero Acad.<span class="ep-meta">ép. 144 · 16:30</span></span></td>
+        <td></td>
+        <td><span class="ep ep-new">Spice & Wolf<span class="ep-meta">ép. 1 · 14:00</span></span><span class="ep ep-def">One Piece<span class="ep-meta">ép. 1098 · 17:30</span></span></td>
+        <td><span class="ep ep-def">Dr. Stone S5<span class="ep-meta">ép. 4 · 14:00</span></span></td>
+      </tr>
+      <tr>
+        <td>Soir</td>
+        <td><span class="ep ep-def">Demon Slayer<span class="ep-meta">ép. 4 · 22:00</span></span></td>
+        <td><span class="ep ep-new">Witch Watch<span class="ep-meta">ép. 1 · 23:00</span></span></td>
+        <td><span class="ep ep-hot">Jujutsu Kaisen<span class="ep-meta">ép. 60 · 22:30</span></span></td>
+        <td><span class="ep ep-def">Bleach TYBW<span class="ep-meta">ép. 32 · 22:00</span></span></td>
+        <td><span class="ep ep-run">Sakamoto Days<span class="ep-meta">ép. 5 · 23:30</span></span></td>
+        <td></td>
+        <td><span class="ep ep-def">Solo Leveling S3<span class="ep-meta">ép. 5 · 22:00</span></span><span class="ep ep-run">Wind Breaker<span class="ep-meta">ép. 5 · 23:00</span></span></td>
+      </tr>
+      <tr>
+        <td>Nuit</td>
+        <td></td>
+        <td><span class="ep ep-def">Re:Zero S3<span class="ep-meta">ép. 4 · 01:30</span></span></td>
+        <td></td>
+        <td></td>
+        <td><span class="ep ep-new">Sakamoto Days S2<span class="ep-meta">ép. 1 · 00:30</span></span></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cal-legend">
+    <div class="leg"><div class="leg-dot" style="background:var(--magenta)"></div>Nouveauté de la saison</div>
+    <div class="leg"><div class="leg-dot" style="background:rgba(153,102,204,.4);border:1px solid rgba(153,102,204,.3)"></div>Série en cours</div>
+    <div class="leg"><div class="leg-dot" style="background:rgba(255,95,179,.3);border:1px solid rgba(255,95,179,.25)"></div>Suite très attendue</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--bg-elevated);border:1px solid var(--border)"></div>Au programme</div>
+  </div>
+
+  <div class="sec-head">
+    <h3 class="sec-title">Temps forts de la saison</h3>
+    <span class="sec-more">Filtrer →</span>
+  </div>
+  <div class="news-grid" style="margin-bottom:0">
+    <article class="card">
+      <div class="card-img g1" style="aspect-ratio:2/3;max-height:200px">💨</div>
+      <div class="card-body">
+        <span class="tag tag-new">NOUVEAU</span>
+        <div class="card-title">Wind Breaker S2</div>
+        <div class="card-meta">Lun · MAPPA · 09:30</div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g4" style="aspect-ratio:2/3;max-height:200px">⚗️</div>
+      <div class="card-body">
+        <span class="tag tag-vi">SUITE</span>
+        <div class="card-title">L'Apothicaire S2</div>
+        <div class="card-meta">Ven · OLM · 11:30</div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g2" style="aspect-ratio:2/3;max-height:200px">🧙</div>
+      <div class="card-body">
+        <span class="tag tag-new">NOUVEAU</span>
+        <div class="card-title">Witch Watch</div>
+        <div class="card-meta">Mar · Bibury · 23:00</div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img g7" style="aspect-ratio:2/3;max-height:200px">🐺</div>
+      <div class="card-body">
+        <span class="tag tag-mg">REMAKE</span>
+        <div class="card-title">Spice & Wolf</div>
+        <div class="card-meta">Sam · Passione · 14:00</div>
+      </div>
+    </article>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-in">
+      <div class="footer-copy">Fuseau UTC+9 (Tokyo) · Bascule disponible</div>
+      <div class="footer-copy">14 nouveautés · 23 suites — printemps 2026</div>
+    </div>
+  </footer>
+
+</div>
+</div>
+
+
+<!-- ============================================================
+     PAGE 4 — ANIME → MANGA
+============================================================ -->
+<div class="page" id="page-a2m">
+<div class="wrap">
+
+  <div class="page-header">
+    <h1 class="page-h1">Reprendre en <span class="grad-text">manga</span></h1>
+    <p class="page-sub">Tu finis un anime, on te dit exactement à quel tome & chapitre reprendre — sans spoil, avec contexte.</p>
+  </div>
+
+  <div class="a2m-search">
+    <span style="font-size:22px">🔍</span>
+    <input class="a2m-input" type="text" placeholder="Cherche un anime — ex. Jujutsu Kaisen, Demon Slayer…">
+    <button class="btn btn-primary">Trouver</button>
+  </div>
+
+  <div class="filter-bar" id="fbar-a2m" style="margin-bottom:28px">
+    <button class="fp on">Tous</button>
+    <button class="fp">Shōnen</button>
+    <button class="fp">Seinen</button>
+    <button class="fp">Shōjo</button>
+    <button class="fp">Anime fini</button>
+    <button class="fp">Anime en pause</button>
+  </div>
+
+  <div class="a2m-list">
+
+    <article class="a2m-card">
+      <div class="a2m-side">
+        <div class="a2m-cover g1">🗡️</div>
+        <div>
+          <div class="a2m-lbl">Anime — fini</div>
+          <div class="a2m-title">Demon Slayer S4</div>
+          <div class="a2m-stop">Arrêté épisode 8 — fin de l'arc « village des forgerons »</div>
+          <div class="chips"><span class="chip">Shōnen</span><span class="chip">26 ép.</span></div>
+        </div>
+      </div>
+      <div class="a2m-arrow-col">
+        <div class="a2m-arr">→</div>
+        <div class="a2m-arr-lbl">reprendre<br>ici</div>
+      </div>
+      <div class="a2m-side">
+        <div class="a2m-cover g2">📚</div>
+        <div>
+          <div class="a2m-lbl manga">Manga — reprendre ici</div>
+          <div class="a2m-title">Tome 16 · ch. 137</div>
+          <div class="a2m-stop">Arc « entraînement des piliers » — 7 tomes restants jusqu'à la fin.</div>
+          <div class="chips"><span class="chip">7 tomes</span><span class="chip">Terminé</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="a2m-card">
+      <div class="a2m-side">
+        <div class="a2m-cover g5">⚡</div>
+        <div>
+          <div class="a2m-lbl">Anime — en pause</div>
+          <div class="a2m-title">Jujutsu Kaisen S2</div>
+          <div class="a2m-stop">Arrêté épisode 23 — fin de l'arc de Shibuya</div>
+          <div class="chips"><span class="chip">Shōnen</span><span class="chip">47 ép.</span></div>
+        </div>
+      </div>
+      <div class="a2m-arrow-col">
+        <div class="a2m-arr">→</div>
+        <div class="a2m-arr-lbl">reprendre<br>ici</div>
+      </div>
+      <div class="a2m-side">
+        <div class="a2m-cover g6">📚</div>
+        <div>
+          <div class="a2m-lbl manga">Manga — reprendre ici</div>
+          <div class="a2m-title">Tome 16 · ch. 137</div>
+          <div class="a2m-stop">Arc « culling game » — l'apothéose de la série, jusqu'au tome 30.</div>
+          <div class="chips"><span class="chip">14 tomes</span><span class="chip">Terminé</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="a2m-card">
+      <div class="a2m-side">
+        <div class="a2m-cover g8">⚔️</div>
+        <div>
+          <div class="a2m-lbl">Anime — fini</div>
+          <div class="a2m-title">Vinland Saga S2</div>
+          <div class="a2m-stop">Arrêté épisode 24 — fin de l'arc « ferme »</div>
+          <div class="chips"><span class="chip">Seinen</span><span class="chip">48 ép.</span></div>
+        </div>
+      </div>
+      <div class="a2m-arrow-col">
+        <div class="a2m-arr">→</div>
+        <div class="a2m-arr-lbl">reprendre<br>ici</div>
+      </div>
+      <div class="a2m-side">
+        <div class="a2m-cover g3">📚</div>
+        <div>
+          <div class="a2m-lbl manga">Manga — reprendre ici</div>
+          <div class="a2m-title">Tome 13 · ch. 102</div>
+          <div class="a2m-stop">Arc « Vinland » — voyage vers le nouveau monde, en cours (28 t.).</div>
+          <div class="chips"><span class="chip">15+ tomes</span><span class="chip">En cours</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="a2m-card">
+      <div class="a2m-side">
+        <div class="a2m-cover g4">🔫</div>
+        <div>
+          <div class="a2m-lbl">Anime — fini</div>
+          <div class="a2m-title">Spy x Family S2</div>
+          <div class="a2m-stop">Arrêté épisode 25 — arc « croisière »</div>
+          <div class="chips"><span class="chip">Shōnen</span><span class="chip">37 ép.</span></div>
+        </div>
+      </div>
+      <div class="a2m-arrow-col">
+        <div class="a2m-arr">→</div>
+        <div class="a2m-arr-lbl">reprendre<br>ici</div>
+      </div>
+      <div class="a2m-side">
+        <div class="a2m-cover g7">📚</div>
+        <div>
+          <div class="a2m-lbl manga">Manga — reprendre ici</div>
+          <div class="a2m-title">Tome 11 · ch. 70</div>
+          <div class="a2m-stop">Arc « école de Berlint » — 4 tomes d'avance sur l'anime, en cours.</div>
+          <div class="chips"><span class="chip">4+ tomes</span><span class="chip">En cours</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="a2m-card">
+      <div class="a2m-side">
+        <div class="a2m-cover g1">🪚</div>
+        <div>
+          <div class="a2m-lbl">Anime — fini</div>
+          <div class="a2m-title">Chainsaw Man S1</div>
+          <div class="a2m-stop">Arrêté épisode 12 — fin de la « part 1 » incomplète</div>
+          <div class="chips"><span class="chip">Shōnen</span><span class="chip">12 ép.</span></div>
+        </div>
+      </div>
+      <div class="a2m-arrow-col">
+        <div class="a2m-arr">→</div>
+        <div class="a2m-arr-lbl">reprendre<br>ici</div>
+      </div>
+      <div class="a2m-side">
+        <div class="a2m-cover g2">📚</div>
+        <div>
+          <div class="a2m-lbl manga">Manga — reprendre ici</div>
+          <div class="a2m-title">Tome 8 · ch. 60</div>
+          <div class="a2m-stop">La fin de la part 1 + toute la part 2 « école » — 9 tomes supplémentaires.</div>
+          <div class="chips"><span class="chip">9+ tomes</span><span class="chip">En cours</span></div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-in">
+      <div class="footer-copy">23 fiches dispo · 8 ajoutées ce mois-ci</div>
+      <a href="#" style="color:var(--magenta);font-size:13px;font-weight:600">Manque un titre ? Suggérer →</a>
+    </div>
+  </footer>
+
+</div>
+</div>
+
+
+<!-- ============================================================
+     PAGE 5 — À PROPOS
+============================================================ -->
+<div class="page" id="page-about">
+<div class="wrap">
+
+  <div class="about-hero">
+    <div>
+      <h1 class="about-lead">
+        <span class="grad-text">INKU</span>, c'est une<br>rédac qui aime<br>trop l'anime.
+      </h1>
+      <p class="about-p">On écrit pour les fans qui dévorent un épisode dès qu'il sort, qui s'engueulent (gentiment) en ligne à propos du dernier Frieren, et qui veulent une source qui parle leur langue.</p>
+      <p class="about-p">Pas d'avis tièdes. Pas de bullet points SEO. Que des reviews, des dossiers, des interviews, et un calendrier qui marche.</p>
+      <div class="about-actions">
+        <button class="btn btn-primary">La rédac</button>
+        <button class="btn btn-ghost">Nous écrire</button>
+        <button class="btn btn-ghost" onclick="scrollNL('nl-about')">Newsletter</button>
+      </div>
+    </div>
+    <div class="mascot-wrap">
+      <!-- Large octopus mascot SVG -->
+      <svg viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg" width="150" height="150" style="display:block;margin:0 auto;position:relative;z-index:1">
+        <defs>
+          <radialGradient id="glow2" cx="50%" cy="40%" r="55%">
+            <stop offset="0%" stop-color="#D02886" stop-opacity=".35"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+        </defs>
+        <circle cx="85" cy="85" r="80" fill="url(#glow2)"/>
+        <!-- Body -->
+        <ellipse cx="85" cy="70" rx="48" ry="44" fill="#9966CC"/>
+        <ellipse cx="85" cy="64" rx="40" ry="36" fill="#B585E8"/>
+        <!-- Shine -->
+        <ellipse cx="72" cy="52" rx="16" ry="12" fill="white" opacity=".1"/>
+        <!-- Eyes -->
+        <circle cx="69"  cy="64" r="12" fill="white"/>
+        <circle cx="101" cy="64" r="12" fill="white"/>
+        <circle cx="70.5" cy="64.5" r="6.5" fill="#120626"/>
+        <circle cx="102.5" cy="64.5" r="6.5" fill="#120626"/>
+        <circle cx="72.5" cy="62.5" r="2.8" fill="white"/>
+        <circle cx="104.5" cy="62.5" r="2.8" fill="white"/>
+        <!-- Brows -->
+        <path d="M58 53 Q69 48 77 53" stroke="#120626" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M93 53 Q101 48 112 53" stroke="#120626" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <!-- Mouth -->
+        <path d="M73 80 Q85 88 97 80" stroke="#120626" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <!-- Nose -->
+        <circle cx="85" cy="75" r="5.5" fill="#D02886" opacity=".85"/>
+        <!-- Tentacles -->
+        <path d="M44 104 Q34 122 29 142 Q26 152 31 158" stroke="#9966CC" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M58 114 Q50 133 47 153"                stroke="#9966CC" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M76 120 Q74 141 72 161"                stroke="#9966CC" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M95 118 Q98 139 99 160"                stroke="#9966CC" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M111 108 Q122 127 126 148"             stroke="#9966CC" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <!-- Suctions -->
+        <circle cx="30"  cy="150" r="4.5" fill="#FF5FB3" opacity=".9"/>
+        <circle cx="47"  cy="145" r="4.5" fill="#FF5FB3" opacity=".9"/>
+        <circle cx="72"  cy="153" r="4.5" fill="#FF5FB3" opacity=".9"/>
+        <circle cx="99"  cy="152" r="4.5" fill="#FF5FB3" opacity=".9"/>
+        <circle cx="124" cy="142" r="4.5" fill="#FF5FB3" opacity=".9"/>
+        <!-- Paintbrush -->
+        <rect x="112" y="40" width="9" height="30" rx="4" fill="#C8C8C8" transform="rotate(24 112 40)"/>
+        <rect x="116" y="27" width="9" height="16"  rx="3" fill="#1A0A2E"  transform="rotate(24 116 27)"/>
+        <path d="M127 21 Q134 15 137 26" stroke="#54218E" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <circle cx="142" cy="16" r="7.5" fill="#54218E" opacity=".9"/>
+        <circle cx="152" cy="10" r="5"   fill="#9966CC"  opacity=".75"/>
+        <circle cx="148" cy="26" r="3.5" fill="#D02886"  opacity=".85"/>
+        <circle cx="158" cy="20" r="2.5" fill="#54218E"  opacity=".6"/>
+      </svg>
+      <div class="mascot-name">Inku</div>
+      <div class="mascot-role">Notre rédactrice en chef officieuse</div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-n">2024</div>
+      <div class="stat-l">Lancé un soir d'été</div>
+      <div class="stat-d">Né d'une passion, devenu une référence.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">12</div>
+      <div class="stat-l">Rédacteurs passionnés</div>
+      <div class="stat-d">Une équipe de fans, pas de journalistes tièdes.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">800+</div>
+      <div class="stat-l">Reviews publiées</div>
+      <div class="stat-d">Et on ne compte pas les nuits sans dormir.</div>
+    </div>
+  </div>
+
+  <!-- Team -->
+  <div class="sec-head">
+    <h3 class="sec-title">L'équipe</h3>
+    <span class="sec-more">Tous les contributeurs →</span>
+  </div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-av" style="background:linear-gradient(135deg,#54218E,#D02886)">🦑</div>
+      <div class="team-name">Hazel</div>
+      <div class="team-role">Rédac' en chef</div>
+    </div>
+    <div class="team-card">
+      <div class="team-av" style="background:linear-gradient(135deg,#D02886,#FF5FB3)">✍️</div>
+      <div class="team-name">Lucas</div>
+      <div class="team-role">Manga & seinen</div>
+    </div>
+    <div class="team-card">
+      <div class="team-av" style="background:linear-gradient(135deg,#9966CC,#54218E)">🌸</div>
+      <div class="team-name">Isabella</div>
+      <div class="team-role">Reviews shōjo</div>
+    </div>
+    <div class="team-card">
+      <div class="team-av" style="background:linear-gradient(135deg,#FF5FB3,#9966CC)">🎙️</div>
+      <div class="team-name">Yuki</div>
+      <div class="team-role">Industrie & interviews</div>
+    </div>
+  </div>
+
+  <!-- Values -->
+  <div class="sec-head">
+    <h3 class="sec-title">Ce qu'on défend</h3>
+  </div>
+  <div class="values-grid">
+    <div class="val">
+      <div class="val-icon">⭑</div>
+      <div class="val-title">Honnêteté</div>
+      <div class="val-text">On dit ce qu'on pense vraiment — pas ce qui va plaire au studio ou à l'éditeur. Un anime raté, on le dit.</div>
+    </div>
+    <div class="val">
+      <div class="val-icon">🚫</div>
+      <div class="val-title">Zéro spoil</div>
+      <div class="val-text">On aime les révélations autant que vous. Toutes nos reviews et fiches sont balisées pour protéger votre expérience.</div>
+    </div>
+    <div class="val">
+      <div class="val-icon">🐙</div>
+      <div class="val-title">Communauté d'abord</div>
+      <div class="val-text">INKU existe pour les fans, pas pour les clics. Les débats, les coups de gueule, les découvertes — c'est pour ça qu'on est là.</div>
+    </div>
+  </div>
+
+  <!-- Newsletter -->
+  <section class="nl-section" id="nl-about">
+    <div class="nl-inner">
+      <div>
+        <h3 class="nl-title">Une dernière chose…</h3>
+        <p class="nl-sub">Garde le contact — on t'envoie la sélection INKU chaque dimanche. Pas de spam, jamais.</p>
+        <form class="nl-form" onsubmit="handleNL(event)">
+          <input type="email" placeholder="ton@email.com" required>
+          <button type="submit">Je m'inscris</button>
+        </form>
+      </div>
+      <div class="nl-perks" style="gap:20px">
+        <blockquote style="border-left:3px solid var(--magenta);padding-left:16px;color:var(--text-muted);font-size:15px;font-style:italic;line-height:1.6">
+          « C'est le seul mail qu'on lit jusqu'au bout. »
+          <footer style="font-size:11px;color:var(--text-dim);margin-top:7px;font-style:normal;letter-spacing:.06em;text-transform:uppercase">— @kotaro_77, lecteur</footer>
+        </blockquote>
+        <blockquote style="border-left:3px solid var(--violet);padding-left:16px;color:var(--text-muted);font-size:15px;font-style:italic;line-height:1.6">
+          « Enfin une newsletter anime qui va à l'essentiel. »
+          <footer style="font-size:11px;color:var(--text-dim);margin-top:7px;font-style:normal;letter-spacing:.06em;text-transform:uppercase">— @miku_reads, abonnée</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-in">
+      <div class="footer-copy">© INKU 2026 — fait avec ♡, du thé matcha et des nuits courtes</div>
+      <div class="footer-copy">contact@inku.fr</div>
+    </div>
+  </footer>
+
+</div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ── Navigation ── */
+  function goto(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.nav-lnk').forEach(l => l.classList.remove('on'));
+    document.getElementById('page-' + page).classList.add('on');
+    const lnk = document.querySelector('.nav-lnk[data-p="' + page + '"]');
+    if (lnk) lnk.classList.add('on');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── Newsletter scroll ── */
+  function scrollNL(id) {
+    const el = document.getElementById(id);
+    if (!el) { goto('home'); setTimeout(() => scrollNL('nl-home'), 320); return; }
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ── Newsletter success ── */
+  function handleNL(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Inscrit !';
+    btn.style.background = 'linear-gradient(135deg,#54218E,#9966CC)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; e.target.reset(); }, 3200);
+  }
+
+  /* ── Filter pills (generic) ── */
+  document.querySelectorAll('.filter-bar').forEach(bar => {
+    bar.querySelectorAll('.fp').forEach(pill => {
+      pill.addEventListener('click', () => {
+        bar.querySelectorAll('.fp').forEach(p => p.classList.remove('on'));
+        pill.classList.add('on');
+      });
+    });
+  });
+
+  /* ── Season switch ── */
+  const ssw = document.getElementById('season-sw');
+  if (ssw) ssw.querySelectorAll('.s-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      ssw.querySelectorAll('.s-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    });
+  });
+
+  /* ── Cal filter bar ── */
+  const calBar = document.getElementById('fbar-cal');
+  if (calBar) calBar.querySelectorAll('.fp').forEach(pill => {
+    pill.addEventListener('click', () => {
+      calBar.querySelectorAll('.fp').forEach(p => p.classList.remove('on'));
+      pill.classList.add('on');
+    });
+  });
+</script>
+</body>
+</html>
