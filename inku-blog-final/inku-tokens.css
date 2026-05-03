@@ -1,0 +1,296 @@
+/* ============================================
+   INKU Design System v1.0 — CSS Custom Properties
+   Fonts: Space Grotesk (Clash Display sub) + Outfit via Google Fonts
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('fonts/ClashDisplay-Bold.otf') format('opentype'),
+       url('fonts/ClashDisplay-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('fonts/ClashDisplay-Semibold.otf') format('opentype'),
+       url('fonts/ClashDisplay-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('fonts/ClashDisplay-Medium.otf') format('opentype'),
+       url('fonts/ClashDisplay-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('fonts/ClashDisplay-Regular.otf') format('opentype'),
+       url('fonts/ClashDisplay-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('fonts/ClashDisplay-Light.otf') format('opentype'),
+       url('fonts/ClashDisplay-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('fonts/ClashDisplay-Extralight.otf') format('opentype'),
+       url('fonts/ClashDisplay-Extralight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── BASE TOKENS ─── */
+:root {
+
+  /* COLORS — Primary */
+  --inku-magenta:       #D02886;
+  --inku-rose:          #FF5FB3;
+  --inku-violet:        #9966CC;
+  --inku-deep-violet:   #54218E;
+
+  /* COLORS — Feedback */
+  --inku-success:       #4CAF50;
+  --inku-error:         #E63946;
+  --inku-info:          #2563EB;
+  --inku-neutral:       #767680;
+
+  /* COLORS — Neutrals */
+  --inku-white:         #FFFFFF;
+  --inku-surface:       #F5F5F7;
+  --inku-text-primary:  #1A1A2E;
+  --inku-text-secondary:#767680;
+  --inku-border:        #E8E8F0;
+
+  /* COLORS — Dark mode surfaces */
+  --inku-dark-bg:       #1A1A2E;
+  --inku-dark-surface:  #2D2D44;
+  --inku-dark-text:     #FFFFFF;
+  --inku-dark-text-2:   #B0B0C0;
+  --inku-dark-border:   #3D3D5C;
+
+  /* FONTS */
+  --font-display: 'Clash Display', sans-serif;
+  --font-body:    'Outfit', sans-serif;
+
+  /* FONT WEIGHTS */
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold:    700;
+
+  /* TYPE SCALE */
+  --text-h1:      48px;
+  --text-h2:      36px;
+  --text-h3:      28px;
+  --text-body:    16px;
+  --text-small:   12px;
+  --text-caption: 10px;
+
+  /* LINE HEIGHTS */
+  --lh-tight:   1.2;
+  --lh-normal:  1.5;
+  --lh-small:   1.4;
+  --lh-caption: 1.3;
+
+  /* SPACING (8px grid) */
+  --space-xs:  8px;
+  --space-sm:  16px;
+  --space-md:  24px;
+  --space-lg:  32px;
+  --space-xl:  48px;
+  --space-2xl: 64px;
+
+  /* BORDER RADIUS */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-card: 12px;
+  --radius-pill: 16px;
+
+  /* SHADOWS — none by default; border-only approach */
+  --shadow-none: none;
+  --shadow-hover: 0 4px 16px rgba(208, 40, 134, 0.12);
+
+  /* TRANSITIONS */
+  --transition-fast:   100ms ease-out;
+  --transition-normal: 200ms ease-out;
+
+  /* BUTTON PADDING */
+  --btn-pad-v: 12px;
+  --btn-pad-h: 24px;
+}
+
+/* ─── SEMANTIC TYPOGRAPHY ─── */
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--text-h1);
+  line-height: var(--lh-tight);
+  color: var(--inku-magenta);
+}
+
+h2, .h2 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--text-h2);
+  line-height: var(--lh-tight);
+  color: var(--inku-deep-violet);
+}
+
+h3, .h3 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--text-h3);
+  line-height: var(--lh-tight);
+  color: var(--inku-violet);
+}
+
+p, body, .body {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--text-body);
+  line-height: var(--lh-normal);
+  color: var(--inku-text-primary);
+}
+
+.small, small {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--text-small);
+  line-height: var(--lh-small);
+  color: var(--inku-text-secondary);
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--text-caption);
+  line-height: var(--lh-caption);
+  color: var(--inku-text-secondary);
+}
+
+/* ─── BUTTON BASE ─── */
+.btn {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--text-body);
+  padding: var(--btn-pad-v) var(--btn-pad-h);
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), transform var(--transition-fast), background var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.btn-primary {
+  background: var(--inku-magenta);
+  color: var(--inku-white);
+}
+.btn-primary:hover  { opacity: 0.9; }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--inku-magenta);
+  border: 2px solid var(--inku-magenta);
+}
+.btn-secondary:hover  { background: #FFF5FB; }
+.btn-secondary:active { background: #FFE8F5; }
+
+.btn-tertiary {
+  background: var(--inku-surface);
+  color: var(--inku-deep-violet);
+  border: none;
+}
+.btn-tertiary:hover  { background: var(--inku-border); }
+.btn-tertiary:active { background: #DDDDEE; }
+
+/* ─── CARD ─── */
+.card {
+  background: var(--inku-white);
+  border: 0.5px solid var(--inku-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-sm);
+  transition: transform var(--transition-normal);
+}
+.card:hover { transform: translateY(-4px); }
+
+/* ─── TAGS ─── */
+.tag-genre {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 13px;
+  color: var(--inku-deep-violet);
+  background: var(--inku-surface);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+}
+
+.tag-status {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tag-ongoing  { border-color: var(--inku-info);    background: rgba(37,99,235,.1);  color: var(--inku-info); }
+.tag-complete { border-color: var(--inku-success); background: rgba(76,175,80,.1);  color: var(--inku-success); }
+.tag-dropped  { border-color: var(--inku-error);   background: rgba(230,57,70,.1);  color: var(--inku-error); }
+
+/* ─── BADGE ─── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--inku-error);
+  color: var(--inku-white);
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 14px;
+  padding: 0 6px;
+}
+
+/* ─── DARK MODE ─── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --inku-white:         #1A1A2E;
+    --inku-surface:       #2D2D44;
+    --inku-text-primary:  #FFFFFF;
+    --inku-text-secondary:#B0B0C0;
+    --inku-border:        #3D3D5C;
+  }
+}
+
+[data-theme="dark"] {
+  --inku-white:         #1A1A2E;
+  --inku-surface:       #2D2D44;
+  --inku-text-primary:  #FFFFFF;
+  --inku-text-secondary:#B0B0C0;
+  --inku-border:        #3D3D5C;
+}

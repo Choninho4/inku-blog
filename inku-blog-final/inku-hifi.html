@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INKU — Site éditorial</title>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: 'Outfit', sans-serif; background: #F5F5F7; color: #1A1A2E; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #F5F5F7; }
+  ::-webkit-scrollbar-thumb { background: #E8E8F0; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #D8D8E5; }
+  ::selection { background: #D02886; color: #fff; }
+  button { font-family: inherit; }
+  /* page transition */
+  .inku-page-enter { animation: fade-in 220ms ease-out; }
+  @keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="inku-shared.jsx"></script>
+<script type="text/babel" src="inku-cards.jsx"></script>
+<script type="text/babel" src="inku-pages.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "heroLayout": "60-40",
+  "accent": "magenta"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [page, setPage] = React.useState('home');
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [toast, setToast] = React.useState(null);
+
+  const handleNav = (p) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleArticle = (a) => {
+    setToast(`Article "${a.title.slice(0, 40)}…" — détail en V2.`);
+    setTimeout(() => setToast(null), 2500);
+  };
+
+  const handleNewsletter = (email) => {
+    if (typeof email === 'string' && email) {
+      setToast(`✦ Inscrit ! On t'envoie un mail à ${email}.`);
+      setTimeout(() => setToast(null), 2800);
+    } else {
+      // scroll to newsletter
+      const el = document.getElementById('newsletter');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      else handleNav('home');
+    }
+  };
+
+  // accent color override
+  React.useEffect(() => {
+    const root = document.documentElement;
+    const accent = tweaks.accent === 'rose' ? '#FF5FB3' : tweaks.accent === 'violet' ? '#9966CC' : '#D02886';
+    root.style.setProperty('--inku-accent', accent);
+  }, [tweaks.accent]);
+
+  const PAGES = {
+    home:     <HomePage     onNav={handleNav} onArticle={handleArticle} onNewsletter={handleNewsletter} layout={tweaks.heroLayout} />,
+    news:     <NewsPage     onNav={handleNav} onArticle={handleArticle} onNewsletter={handleNewsletter} />,
+    calendar: <CalendarPage onNav={handleNav} onNewsletter={handleNewsletter} />,
+    a2m:      <A2MPage      onNav={handleNav} onNewsletter={handleNewsletter} />,
+    about:    <AboutPage    onNav={handleNav} onNewsletter={handleNewsletter} />,
+  };
+
+  return (
+    <div data-screen-label={
+      page === 'home'     ? '01 Accueil' :
+      page === 'news'     ? '02 News' :
+      page === 'calendar' ? '03 Calendrier' :
+      page === 'a2m'      ? '04 Anime → Manga' :
+                            '05 À propos'
+    }>
+      <NavBar activePage={page} onNav={handleNav} onNewsletter={() => handleNewsletter()} />
+      <div key={page} className="inku-page-enter">
+        {PAGES[page]}
+      </div>
+
+      {/* Toast */}
+      {toast && (
+        <div style={{
+          position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
+          background: INKU.ink, color: '#fff',
+          padding: '12px 20px', borderRadius: 999,
+          fontFamily: "'Outfit',sans-serif", fontSize: 14, fontWeight: 600,
+          boxShadow: '0 12px 40px rgba(26,26,46,0.25)',
+          zIndex: 1000, maxWidth: '90vw',
+        }}>{toast}</div>
+      )}
+
+      {/* Tweaks */}
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Page">
+          <TweakSelect label="Page active" value={page} onChange={setPage} options={[
+            { value: 'home', label: '01 — Accueil' },
+            { value: 'news', label: '02 — News' },
+            { value: 'calendar', label: '03 — Calendrier' },
+            { value: 'a2m', label: '04 — Anime → Manga' },
+            { value: 'about', label: '05 — À propos' },
+          ]} />
+        </TweakSection>
+        <TweakSection title="Hero (accueil)">
+          <TweakRadio label="Layout" value={tweaks.heroLayout} onChange={(v) => setTweak('heroLayout', v)} options={[
+            { value: '60-40', label: '60 / 40' },
+            { value: 'three-col', label: '3 col' },
+            { value: 'stack', label: 'Empilé' },
+          ]} />
+        </TweakSection>
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
